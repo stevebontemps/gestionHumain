@@ -1,6 +1,5 @@
 <?php
 
-//include('models/Db.php');
 require 'models/Db.php';
 require 'models/Humain.php';
 require 'models/HumainsManager.php';
