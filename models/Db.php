@@ -10,7 +10,7 @@ class Db{
   private $_password = "root";
   private $_database = "gestionhumain";
 
-      /*
+  /*
     Get an instance of the Database
     @return Instance
     */

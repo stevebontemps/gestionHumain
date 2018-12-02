@@ -31,7 +31,7 @@ class HumainsManager{
 
       // Hydratation du Menu passé en paramètre avec assignation de son identifiant et du prix initial.
       $h->hydrate(
-        ['id'     => $this->db->lastInsertId(),
+        ['id'     => $this->_db->lastInsertId(),
         'nom'     => $h->getNom(),
         'prenom'  => $h->getPrenom(),
         'adresse' => $h->getAdresse(),

@@ -1,17 +1,13 @@
 <?php
 
-require 'models/Db.php';
-require 'models/Humain.php';
-require 'models/HumainsManager.php';
+// require 'models/Db.php';
+// require 'models/Humain.php';
+// require 'models/HumainsManager.php';
 
-// On enregistre notre autoload.
-// function chargerClasse($classname)
-// {
-//   require_once 'models/'.$classname.'.php';
-// }
-// spl_autoload_register('chargerClasse');
-// // On appelle session_start() APRÈS avoir enregistré l'autoload.
-// session_start();
+require('models/Autoloader.php');
+// on appele une methode : register de la Classe Autoloader
+Autoloader::register();
+
 
 $db = Db::getInstance();
 $conn = $db->getConnection();
