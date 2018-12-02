@@ -2,33 +2,44 @@
 
 class Db{
 
-    private static $instance = NULL;
+  private $_connection;
+  //The single instance
+  private static $_instance;
+  private $_host = "localhost";
+  private $_username = "root";
+  private $_password = "root";
+  private $_database = "gestionhumain";
 
-    function __construct(){}
-
-    function __clone(){}
-
+      /*
+    Get an instance of the Database
+    @return Instance
+    */
     public static function getInstance()
     {
-        if(!isset(self::$instance))
-        {
-            // $servername = "localhost";
-            // $username = "root";
-            // $password = "root";
-            // $myDB = "gestionhumain";
-            
-            //$pdo_option[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-            //self::$instance = new PDO("mysql:host=$servername;dbname=$myDB", $username, $password); 
-            
-            self::$instance = new PDO("mysql:host=localhost;dbname=gestionhumain","root","root");
-
-            //self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            
+        if (!self::$_instance) { // If no instance then make one
+            self::$_instance = new self();
         }
-
-        return self::$instance;
+        return self::$_instance;
+    }
+    // Constructor
+    private function __construct()
+    {
+        try {
+            $this->_connection  = new PDO("mysql:host=$this->_host;dbname=$this->_database", $this->_username, $this->_password);
+            /*** echo a message saying we have connected ***/
+          //  echo 'Connected to database';
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    // Magic method clone is empty to prevent duplication of connection
+    private function __clone()
+    {
+    }
+    // Get mysql pdo connection
+    public function getConnection()
+    {
+        return $this->_connection;
     }
 
 }
-

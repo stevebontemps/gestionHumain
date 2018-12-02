@@ -2,19 +2,43 @@
 
     class Humain{
 
+        private $id;
         private $nom;
         private $prenom;
         private $adresse;
         private $ville;
         private $codepostal;
 
+        /* fonction hydratation des donnees provenant de la BDD */
+        public function hydrate(array $donnees)
+        {
+          foreach($donnees as $key => $value)
+          {
+            // On récupère le nom du setter correspondant à l'attribut.
+            $method = 'set'.ucfirst($key);
+            // Si le setter correspondant existe.
+            if(method_exists($this, $method))
+            {
+              // On appelle le setter.
+              $this->$method($value);
+            }
+          }
+        }
+        /* le constructeur de l'objet Fruit */
+        public function __construct(array $donnees){
+              $this->hydrate($donnees);
+        }
 
-        public function __construct($nom,$prenom,$adresse,$ville,$codepostal){
-            $this->setNom($nom);
-            $this->setPrenom($prenom);
-            $this->setAdresse($adresse);
-            $this->setVille($ville);
-            $this->setCodepostal($codepostal);
+        /* SETTERS */
+        public function setId($id)
+        {
+           # on pasre la valeur de l'id en INT
+           $id = (int) $id;
+           // On vérifie que l id superieur à zero
+           if ($id > 0)
+           {
+             $this->id = $id;
+           }
         }
 
         public function setNom($nom){
@@ -36,6 +60,14 @@
         public function setCodepostal($codepostal){
             $this->codepostal = $codepostal;
         }
+
+
+        /* GETTERS */
+        public function getId()
+        {
+          return $this->id;
+        }
+
 
         public function getNom(){
             return $this->nom;

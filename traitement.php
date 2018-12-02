@@ -1,84 +1,51 @@
 <?php
 
-include('models/Db.php');
-include('models/Humain.php');
-include('models/HumainsManager.php');
+require_once 'models/Db.php';
+
+require_once 'models/Humain.php';
+require_once 'models/HumainsManager.php';
 
 
 $conn = Db::getInstance();
-
-var_dump($conn);
-
 $conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
 
+//var_dump($conn);
+
 $humainsManager = new HumainsManager($conn);
-
-
-
 
 
 $nom = $_POST["nom"];
 $prenom = $_POST["prenom"];
 $adresse = $_POST["adresse"];
 $ville = $_POST["ville"];
-$codepostal = (int)$_POST["codepostal"];
+$codepostal = $_POST["codepostal"];
 
-$mon_humain = new Humain($nom,$prenom,$adresse,$ville,$codepostal); 
+// var_dump($nom);
+// var_dump($prenom);
+// var_dump($adresse);
+// var_dump($ville);
+// var_dump($codepostal);
 
+$mon_humain = new Humain($nom,$prenom,$adresse,$ville,$codepostal);
 
-$humainsManager->save($mon_humain);
+$humainsManager->add($mon_humain);
 
+// $req = $humainsManager->getDb();
 
-// include('models/Humain.php');
-
-// $moi = new Humain('bontemps','steve','dragonniere','vias',34400);
-
-// echo $moi->getNom();
-
-
-
-
+echo $mon_humain->getNom();
 
 
+?>
 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
 
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-?> 
+</body>
+</html>

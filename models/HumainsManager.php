@@ -1,47 +1,50 @@
 <?php
 
 class HumainsManager{
-    
-    // attribut
-    private $db;
 
-    //setter
-    public function setDb(PDO $db){
-        $this->db = $db;
+    private $_db;
+
+    public function setDb(PDO $db)
+    {
+       $this->_db = $db;
     }
 
-    //construct 
-    public function __contruct($db){
-        $this->setDb($db);
-
-    }
-    
-    public function save(Humain $humain){
-
-        $request = $this->db->prepare("INSERT INTO humain(nom,prenom,adresse,ville,codepostal) VALUES(:nom,:prenom,:adresse,:ville,:codepostal)");
-                                       
-
-
-        $request->bindValue(':nom',$humain->getNom());
-        $request->bindValue(':prenom',$humain->getPrenom());
-        $request->bindValue(':adresse',$humain->getAdresse());
-        $request->bindValue(':ville',$humain->getVille());
-        $request->bindValue(':codepostal',$humain->getCodepostal());
-
-        $reponse = $request->execute();
-
-        return $reponse;
-
+    public function __construct($db)
+    {
+      $this->setDb($db);
     }
 
+    public function add(Humain $h)
+    {
+      // Préparation de la requête d'insertion.
+      // Assignation des valeurs pour le Menu.
+      // Exécution de la requête.
+      $q = $this->_db->prepare('INSERT INTO humain(nom,prenom,adresse,ville,codepostal) VALUES(:nom,:prenom,:adresse,:ville,:codepostal)');
+
+     $q->bindValue(':nom',$h->getNom());
+     $q->bindValue(':prenom',$h->getPrenom());
+     $q->bindValue(':adresse',$h->getAdresse());
+     $q->bindValue(':ville',$h->getVille());
+     $q->bindValue(':codepostal',$h->getCodepostal());
+
+     $reponse = $q->execute();
+
+      // Hydratation du Menu passé en paramètre avec assignation de son identifiant et du prix initial.
+      $h->hydrate(
+        ['id'     => $this->db->lastInsertId(),
+        'nom'     => $h->getNom(),
+        'prenom'  => $h->getPrenom(),
+        'adresse' => $h->getAdresse(),
+        'ville'   => $h->getVille(),
+        'codepostal' => $h->getCodepostal()
+      ]);
+
+      return $reponse;
+
+    }
 
 
-    // Préparation de la requete d'insertion.
-    //Asssignation des valeurs pour le plat.
-    //Execution de la requete.
-    //INSERT INTO humain(nom,prenom,adresse,ville,codepostal) 
-    //VALUES("Menard","Robert","place de la mairie","Beziers",34500); 
-    
+
 
 
 }
